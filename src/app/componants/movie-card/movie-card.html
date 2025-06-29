@@ -1,5 +1,7 @@
 
 <div class="group inline-block">
+    @if(!movieService.movieByIdResource.isLoading()) {
+     
     <div class="card-body relative w-60 h-80 transition-transform duration-300 scale-100 group-hover:scale-110" *ngIf="movieService.movieByIdResource.value() as movie">
         <img src="https://image.tmdb.org/t/p/w500/{{movie.poster_path}}" class="object-cover w-full h-full rounded">
 
@@ -33,4 +35,5 @@
             </ng-container>
         </div>
     </div>
+}
 </div>

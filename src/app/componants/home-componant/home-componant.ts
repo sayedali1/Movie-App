@@ -1,8 +1,9 @@
 import { Component, effect } from '@angular/core';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-home-componant',
-  imports: [],
+  imports: [RouterModule],
   templateUrl: './home-componant.html',
   styleUrl: './home-componant.css'
 })
