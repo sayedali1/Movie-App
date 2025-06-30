@@ -6,6 +6,12 @@ import { IMovie } from '../Models/imovie';
   providedIn: 'root'
 })
 export class MovieService {
+  removeFromWishlist(arg0: any) {
+    throw new Error('Method not implemented.');
+  }
+  addToWishlist(arg0: any) {
+    throw new Error('Method not implemented.');
+  }
   private apiKey = 'bcad6a5fd95f7448a5012ec53ec75177';
 
   // Signal to hold the current movie ID

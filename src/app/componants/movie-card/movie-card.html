@@ -1,9 +1,9 @@
 
 <div class="group inline-block">
-    @if(!movieService.movieByIdResource.isLoading()) {
+   
      
-    <div class="card-body relative w-60 h-80 transition-transform duration-300 scale-100 group-hover:scale-110" *ngIf="movieService.movieByIdResource.value() as movie">
-        <img src="https://image.tmdb.org/t/p/w500/{{movie.poster_path}}" class="object-cover w-full h-full rounded">
+    <div class="card-body relative w-60 h-80 transition-transform duration-300 scale-100 group-hover:scale-110" >
+        <img src="https://image.tmdb.org/t/p/w500/{{movie?.poster_path}}" class="object-cover w-full h-full rounded">
 
         <!-- Icon overlaying the image, top-left -->
         <span
@@ -25,15 +25,15 @@
         >
             <ng-container>
                 <div class="w-full flex items-center justify-between">
-                    <h2 class="text-xl font-bold mb-2">{{ movie.title }}</h2>
+                    <h2 class="text-xl font-bold mb-2">{{ movie?.title }}</h2>
                     <span class="text-yellow-400 flex items-center ml-2">
                         <span class="mr-1">★</span>
-                        {{ movie.vote_average }}
+                        {{ movie?.vote_average }}
                     </span>
                 </div>
-                <span class="text-sm self-start">{{ movie.release_date | date }}</span>
+                <span class="text-sm self-start">{{ movie?.release_date | date }}</span>
             </ng-container>
         </div>
     </div>
-}
+
 </div>
