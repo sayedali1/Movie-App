@@ -1,7 +1,9 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, effect, Inject, inject, OnInit } from '@angular/core';
 import { MovieService } from '../../shared/movie.service';
 import { CommonModule } from '@angular/common';
 import { RouterLink, RouterModule } from '@angular/router';
+import { IMovie } from '../../Models/imovie';
+import { WishlistService } from '../../shared/wishlist.service';
 
 declare const AOS: any; // Add this if you get a TS error about AOS
 
@@ -11,21 +13,33 @@ declare const AOS: any; // Add this if you get a TS error about AOS
   templateUrl: './movie-card.html',
   styleUrl: './movie-card.css'
 })
-export class MovieCard implements OnInit {
+export class MovieCard  {
   movieService = inject(MovieService);
   isFavorite = false;
+  movie?: IMovie;
+  wishlistService = inject(WishlistService)
 
   constructor() {
 
     this.movieService.movieId.set(11);
-     // To change the movie
+     // Reactively update movie when data is loaded
+     effect(() => {
+      if (!this.movieService.movieByIdResource.isLoading()) {
+        this.movie = this.movieService.movieByIdResource.value();
+        console.log('Movie data:', this.movie);
+      }
+    });
   }
 
-  ngOnInit() {
-    AOS.init(); // Initialize AOS for animations
-  }
 
   toggleFavorite() {
     this.isFavorite = !this.isFavorite;
+    if (this.isFavorite && this.movie) {
+      this.wishlistService.addToWishlist(this.movie);
+
+    } else if (this.movie) {
+      this.wishlistService.removeFromWishlist(this.movie);
+    }
+    console.log('Favorite status:',this.wishlistService.items());
   }
 }
