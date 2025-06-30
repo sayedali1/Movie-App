@@ -1,16 +1,18 @@
 import { Component, effect } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { Pagination } from '../pagination/pagination';
+import { Search } from '../search/search';
 
 @Component({
   selector: 'app-home-componant',
-  imports: [RouterModule],
+  imports: [RouterModule, Pagination, Search],
   templateUrl: './home-componant.html',
-  styleUrl: './home-componant.css'
+  styleUrl: './home-componant.css',
 })
 export class HomeComponant {
   MovieService: any;
 
-  constructor() { 
+  constructor() {
     effect(() => {
       const loading = this.MovieService.popularMovies.isLoading();
       const movies = this.MovieService.popularMovies.value().results;
@@ -19,6 +21,4 @@ export class HomeComponant {
       }
     });
   }
-
-  
 }
