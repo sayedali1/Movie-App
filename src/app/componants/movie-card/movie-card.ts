@@ -11,12 +11,13 @@ import { CommonModule } from '@angular/common';
 import { RouterLink, RouterModule } from '@angular/router';
 import { IMovie } from '../../Models/imovie';
 import { WishlistService } from '../../shared/wishlist.service';
+import { GenreDropdown } from '../genre-dropdown/genre-dropdown';
 
 declare const AOS: any; // Add this if you get a TS error about AOS
 
 @Component({
   selector: 'app-movie-card',
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, GenreDropdown],
   templateUrl: './movie-card.html',
   styleUrl: './movie-card.css',
 })

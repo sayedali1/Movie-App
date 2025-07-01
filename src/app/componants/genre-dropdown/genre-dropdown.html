@@ -1,0 +1,6 @@
+<select (change)="onGenreSelect($event)">
+  <option value="">--choes our genre film---</option>
+  <option *ngFor="let genre of genres()" [value]="genre.id">
+    {{ genre.name }}
+  </option>
+</select>

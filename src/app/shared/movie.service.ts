@@ -1,15 +1,9 @@
 import { HttpClient, httpResource } from '@angular/common/http';
 import { Injectable, signal } from '@angular/core';
 import { IMovie } from '../Models/imovie';
-
 import { environment } from '../../environments/environment';
 import { IMovieListResponse } from '../Models/imovie-list-response';
-import { Observable } from 'rxjs';
-
-import { environment } from '../../environments/environment.development';
-import { Observable, forkJoin } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
-import { IMovieListResponse } from '../Models/imovie-list-response';
+import { forkJoin, map, Observable, switchMap } from 'rxjs';
 import { IGenre } from '../Models/igenre';
 
 @Injectable({
@@ -23,9 +17,7 @@ export class MovieService {
   // Signal to hold the current movie ID
   movieId = signal(11);
 
-
-
-  genreId = signal(28); // Default genre ID, can be changed later
+  // Default genre ID, can be changed later
 
   // Resource created at the top level, using the signal
   movieByIdResource = httpResource<IMovie>(
@@ -40,7 +32,6 @@ export class MovieService {
     () => `${environment.pathUrl}movie/popular?api_key=${environment.apiKey}`,
     { defaultValue: { results: [] } }
   );
-
 
   getMoviesByPage(page: number): Observable<IMovieListResponse> {
     const url = `${environment.pathUrl}movie/popular?api_key=${environment.apiKey}&page=${page}`;
@@ -59,40 +50,28 @@ export class MovieService {
     () => `${environment.pathUrl}movie/popular?api_key=${environment.apiKey}`
   );
 
-
   RecommendedMoviesResource = httpResource<IMovie[]>(
     () =>
       `${environment.pathUrl}movie/recommendations?api_key=${environment.apiKey}&language=en-US&page=1`,
     { defaultValue: [] as IMovie[] }
   );
 
-  GenreResource = httpResource<IMovie[]>(
+  GenreResource = httpResource<{ genres: IGenre[] }>(
     () =>
       `${environment.pathUrl}genre/movie/list?api_key=${environment.apiKey}&language=en-US`,
-
-
-  RecommendedMoviesResource = httpResource<IMovie[]>(
-    () =>
-      `${environment.pathUrl}movie/recommendations?api_key=${environment.apiKey}&language=en-US&page=1`,
-
-    { defaultValue: [] as IMovie[] }
+    { defaultValue: { genres: [] } }
   );
+  getGenres(): Observable<{ genres: IGenre[] }> {
+    return this.http.get<{ genres: IGenre[] }>(
+      `${environment.pathUrl}genre/movie/list?api_key=${environment.apiKey}&language=en-US`
+    );
+  }
 
-  GenreResource = httpResource<IGenre[]>(
-    () =>
-      `${environment.pathUrl}genre/movie/list?api_key=${environment.apiKey}&language=en-US`,
-    { defaultValue: [] as IGenre[] }
-  );
   MovieByGenreResource = httpResource<IMovie[]>(
     () =>
-
       `${environment.pathUrl}discover/movie?api_key=${
         environment.apiKey
       }&with_genres=${this.genreId()}`,
-    { defaultValue: [] as IMovie[] }
-  );
-
-      `${environment.pathUrl}discover/movie?api_key=${environment.apiKey}&with_genres=${this.genreId()}`,
     { defaultValue: [] as IMovie[] }
   );
 
@@ -120,7 +99,7 @@ export class MovieService {
           movies$: this.getMoviesByGenre(genre.id),
         }))
       ),
-     
+
       switchMap((genreWithMovies$Arr) =>
         forkJoin(
           genreWithMovies$Arr.map((gm) =>
@@ -130,5 +109,4 @@ export class MovieService {
       )
     );
   }
-
 }
