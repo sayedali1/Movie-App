@@ -1,9 +1,12 @@
 import { HttpClient, httpResource } from '@angular/common/http';
 import { Injectable, signal } from '@angular/core';
 import { IMovie } from '../Models/imovie';
+
 import { environment } from '../../environments/environment.development';
-import { Observable } from 'rxjs';
+import { Observable, forkJoin } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 import { IMovieListResponse } from '../Models/imovie-list-response';
+import { IGenre } from '../Models/igenre';
 
 @Injectable({
   providedIn: 'root',
@@ -18,16 +21,25 @@ export class MovieService {
   }
   private apiKey = '54e4c1f2712d7651666ba7e25f5af2e6';
 
+
+  constructor(private http: HttpClient) {}
   // Signal to hold the current movie ID
   movieId = signal(11);
-  genreId = signal(28);
+
+  genreId = signal(28); // Default genre ID, can be changed later
+
   // Resource created at the top level, using the signal
   movieByIdResource = httpResource<IMovie>(
     () =>
-      `${environment.pathUrl}movie/${this.movieId()}?api_key=${
-        environment.apiKey
+      `https://api.themoviedb.org/3/movie/${this.movieId()}?api_key=${
+        this.apiKey
       }`,
     { defaultValue: {} as IMovie }
+  );
+
+  popularMovies = httpResource<{ results: IMovie[] }>(
+    () => `${environment.pathUrl}movie/popular?api_key=${environment.apiKey}`,
+    { defaultValue: { results: [] } }
   );
 
 
@@ -36,21 +48,73 @@ export class MovieService {
     return this.http.get<IMovieListResponse>(url);
   }
 
+  searchMovies(
+    query: string,
+    page: number = 1
+  ): Observable<IMovieListResponse> {
+    const url = `${environment.pathUrl}search/movie?api_key=${environment.apiKey}&query=${query}&page=${page}`;
+    return this.http.get<IMovieListResponse>(url);
+  }
+
   popularMoviesResource = httpResource<IMovie[]>(
-    () => `https://api.themoviedb.org/3/movie/popular?api_key=${this.apiKey}`)
-  
+    () => `${environment.pathUrl}movie/popular?api_key=${environment.apiKey}`
+  );
+
+
   RecommendedMoviesResource = httpResource<IMovie[]>(
-    () => `https://api.themoviedb.org/3/movie/recommendations?api_key=${this.apiKey}&language=en-US&page=1`,
-    { defaultValue: [] as IMovie[] })
+    () =>
+      `${environment.pathUrl}movie/recommendations?api_key=${environment.apiKey}&language=en-US&page=1`,
+    { defaultValue: [] as IMovie[] }
+  );
 
   GenreResource = httpResource<IMovie[]>(
-    () => `https://api.themoviedb.org/3/genre/movie/list?api_key=${this.apiKey}&language=en-US`,
-    { defaultValue: [] as IMovie[] }
+    () =>
+      `${environment.pathUrl}genre/movie/list?api_key=${environment.apiKey}&language=en-US`,
+
   );
+
   MovieByGenreResource = httpResource<IMovie[]>(
-    () => `https://api.themoviedb.org/3/discover/movie?api_key=${this.apiKey}&with_genres=${this.genreId()}`,
+    () =>
+
+      `${environment.pathUrl}discover/movie?api_key=${
+        environment.apiKey
+      }&with_genres=${this.genreId()}`,
     { defaultValue: [] as IMovie[] }
   );
-  
+
+  getAllGenres(): Observable<IGenre[]> {
+    return this.http
+      .get<{ genres: IGenre[] }>(
+        `${environment.pathUrl}genre/movie/list?api_key=${environment.apiKey}`
+      )
+      .pipe(map((res) => res.genres));
+  }
+
+  getMoviesByGenre(genreId: number): Observable<IMovie[]> {
+    const url = `${environment.pathUrl}discover/movie?api_key=${environment.apiKey}&with_genres=${genreId}`;
+    return this.http
+      .get<{ results: IMovie[] }>(url)
+      .pipe(map((res) => res.results));
+  }
+
+  getAllGenresWithMovies(): Observable<{ genre: IGenre; movies: IMovie[] }[]> {
+    return this.getAllGenres().pipe(
+      // For each genre, fetch its movies
+      map((genres) =>
+        genres.map((genre) => ({
+          genre,
+          movies$: this.getMoviesByGenre(genre.id),
+        }))
+      ),
+     
+      switchMap((genreWithMovies$Arr) =>
+        forkJoin(
+          genreWithMovies$Arr.map((gm) =>
+            gm.movies$.pipe(map((movies) => ({ genre: gm.genre, movies })))
+          )
+        )
+      )
+    );
+  }
 
 }

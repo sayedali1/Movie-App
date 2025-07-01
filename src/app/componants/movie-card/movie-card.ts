@@ -27,7 +27,6 @@ export class MovieCard {
   @Output() toggleWishlist = new EventEmitter<number>();
   isInWishlist = computed(() => (this.movie ? this.wishlistService.isInWishlist(this.movie.id) : false));
 
-
   constructor() {}
 
   toggleWishlistStatus(): void {

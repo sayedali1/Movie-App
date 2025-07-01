@@ -1,0 +1,67 @@
+* [33md0d3546[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mSamuel[m[33m, [m[1;31morigin/Samuel[m[33m)[m Update search.ts
+* [33mb4c54b1[m Update search.ts
+[31m|[m *   [33mfc1e579[m[33m ([m[1;35mrefs/stash[m[33m)[m On main: !!GitHub_Desktop<Samuel>
+[31m|[m [32m|[m[33m\[m  
+[31m|[m [32m|[m * [33mf9072ed[m index on main: 8a69487 Update movie.service.ts
+[31m|[m [32m|[m[32m/[m  
+[31m|[m * [33m8a69487[m[33m ([m[1;32mmain[m[33m)[m Update movie.service.ts
+[31m|[m *   [33me744003[m Merge branch 'main' of https://github.com/sayedali1/Movie-App
+[31m|[m [34m|[m[35m\[m  
+[31m|[m * [35m|[m [33mfe58954[m Update movie.service.ts
+[31m|[m * [35m|[m [33m4ab7688[m Update search.ts
+[31m|[m * [35m|[m   [33mabe048a[m Merge branch 'Samuel' of https://github.com/sayedali1/Movie-App
+[31m|[m [36m|[m[31m\[m [35m\[m  
+[31m|[m [36m|[m[31m/[m [35m/[m  
+[31m|[m[31m/[m[36m|[m [35m|[m   
+[31m|[m * [35m|[m [33m2b058e9[m add search result and search components with routing
+[31m|[m [1;31m|[m [35m|[m * [33mb31b30b[m[33m ([m[1;31morigin/sayed[m[33m)[m fixing grouping
+[31m|[m [1;31m|[m [35m|[m *   [33m7166c7b[m Merge branch 'main' of https://github.com/sayedali1/Movie-App into sayed
+[31m|[m [1;31m|[m [35m|[m [1;33m|[m[35m\[m  
+[31m|[m [1;31m|[m [35m|[m [1;33m|[m[35m/[m  
+[31m|[m [1;31m|[m [35m|[m[35m/[m[1;33m|[m   
+[31m|[m [1;31m|[m * [1;33m|[m [33m1b8043d[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m ok
+[31m|[m [1;31m|[m * [1;33m|[m   [33md98319c[m Merge pull request #6 from sayedali1/Samuel
+[31m|[m [1;31m|[m [1;35m|[m[31m\[m [1;33m\[m  
+[31m|[m [1;31m|[m[31m_[m[1;35m|[m[31m/[m [1;33m/[m  
+[31m|[m[31m/[m[1;31m|[m [1;35m|[m [1;33m|[m   
+* [1;31m|[m [1;35m|[m [1;33m|[m   [33m9677a76[m Merge branch 'main' into Samuel
+[31m|[m[1;35m\[m [1;31m\[m [1;35m\[m [1;33m\[m  
+[31m|[m [1;35m|[m [1;31m|[m[1;35m/[m [1;33m/[m  
+[31m|[m [1;35m|[m[1;35m/[m[1;31m|[m [1;33m|[m   
+[31m|[m * [1;31m|[m [1;33m|[m   [33m9d8eccb[m Merge pull request #5 from sayedali1/sayed
+[31m|[m [33m|[m[34m\[m [1;31m\[m [1;33m\[m  
+[31m|[m [33m|[m [34m|[m [1;31m|[m * [33mb3c4615[m change group
+[31m|[m [33m|[m [34m|[m [1;31m|[m[34m/[m  
+[31m|[m [33m|[m [34m|[m[34m/[m[1;31m|[m   
+[31m|[m [33m|[m * [1;31m|[m [33mabb3c1b[m added search bygenre , andded getting recomended moives , getting genres
+[31m|[m [33m|[m [34m|[m [1;31m|[m * [33m785ae39[m[33m ([m[1;31morigin/Mayar[m[33m)[m movie_details ui
+[31m|[m [33m|[m[31m_[m[34m|[m[31m_[m[1;31m|[m[31m/[m  
+[31m|[m[31m/[m[33m|[m [34m|[m [1;31m|[m   
+* [33m|[m [34m|[m [1;31m|[m [33m3045c0e[m add pagination and home components and search with service for pagination
+* [33m|[m [34m|[m [1;31m|[m [33m646e514[m Merge branch 'main' of https://github.com/sayedali1/Movie-App into Samuel
+[36m|[m[33m\[m[33m|[m [34m|[m [1;31m|[m 
+[36m|[m * [34m|[m [1;31m|[m [33mf02ea50[m Merge pull request #4 from sayedali1/sayed
+[36m|[m [1;32m|[m[34m\[m[34m|[m [1;31m|[m 
+[36m|[m [1;32m|[m * [1;31m|[m [33mbf62d66[m add efect , added wishlist servces bind it with the heart
+* [1;32m|[m [1;33m|[m [1;31m|[m [33m0ba28c6[m add envioments to prject
+[1;31m|[m [1;32m|[m[1;31m_[m[1;33m|[m[1;31m/[m  
+[1;31m|[m[1;31m/[m[1;32m|[m [1;33m|[m   
+* [1;32m|[m [1;33m|[m [33m0128b61[m Create environment.ts
+* [1;32m|[m [1;33m|[m [33m74cdd3c[m Update angular.json
+* [1;32m|[m [1;33m|[m [33mf4496ca[m Update angular.json
+[1;32m|[m[1;32m/[m [1;33m/[m  
+* [1;33m|[m [33m3500c01[m[33m ([m[1;31morigin/Abd-Elghany[m[33m)[m Merge pull request #3 from sayedali1/sayed
+[1;34m|[m[1;33m\[m[1;33m|[m 
+[1;34m|[m * [33mf732a9b[m added route_navBar
+* [1;35m|[m [33mb8035e1[m Merge pull request #2 from sayedali1/sayed
+[1;36m|[m[1;35m\[m[1;35m|[m 
+[1;36m|[m * [33mfb95b47[m scaleonHaver
+* [31m|[m [33m11432b2[m Merge pull request #1 from sayedali1/sayed
+[32m|[m[31m\[m[31m|[m 
+[32m|[m * [33mfa307c6[m added heart_transcation_binding withMoive
+* [33m|[m [33m8172ec7[m added AOS
+[33m|[m[33m/[m  
+* [33m4e2acf7[m addedmovie cared_Imoive_servce
+* [33m8a3e471[m added_models_services_shared
+* [33mb585438[m add tailwind and
+* [33mbae715d[m Initial commit

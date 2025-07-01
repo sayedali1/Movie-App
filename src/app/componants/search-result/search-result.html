@@ -1,0 +1,49 @@
+<section class="container mx-auto px-4 py-6">
+  <!-- Search box -->
+  <app-search (onSearch)="handleSearch($event)"></app-search>
+
+  <!-- Loader -->
+  <div *ngIf="loading" class="text-center py-10 text-blue-600 font-bold">
+    Loading search results...
+  </div>
+
+  <!-- Results grid -->
+  <div
+    *ngIf="!loading && searchResults.length"
+    class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-8"
+  >
+    @for (movie of searchResults; track $index) {
+    <!-- <app-movie-card [movie]="movie"></app-movie-card> -->
+
+    <app-movie-summary-card [movie]="movie"></app-movie-summary-card>
+    }
+  </div>
+
+  <!-- No results -->
+  <div
+    *ngIf="!loading && searchQuery && searchResults.length === 0"
+    class="text-center text-gray-500 mt-10"
+  >
+    No results found for "{{ searchQuery }}"
+  </div>
+  <div class="pagination-container" *ngIf="visiblePages.length > 1">
+    <button (click)="goToPrevSet()" [disabled]="visiblePages[0] === 1">
+      «
+    </button>
+
+    <button
+      *ngFor="let page of visiblePages"
+      (click)="goToPage(page)"
+      [class.active]="page === currentPage"
+    >
+      {{ page }}
+    </button>
+
+    <button
+      (click)="goToNextSet()"
+      [disabled]="visiblePages[visiblePages.length - 1] === totalPages"
+    >
+      »
+    </button>
+  </div>
+</section>
