@@ -1,0 +1,67 @@
+.movie-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+  gap: 2rem;
+  background-color: #121212;
+  color: #fff;
+  min-height: 100vh;
+}
+
+.poster img {
+  width: 100%;
+  max-width: 350px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+}
+
+.details {
+  max-width: 800px;
+  text-align: center;
+}
+
+.details h1 {
+  margin: 0;
+  font-size: 2.5rem;
+  color: #00e5ff;
+}
+
+.tagline, .rating {
+  margin: 0.5rem 0;
+  font-size: 1.1rem;
+}
+
+.genres {
+  margin: 1rem 0;
+}
+
+.genre {
+  display: inline-block;
+  background-color: #00e5ff;
+  color: #000;
+  padding: 5px 10px;
+  border-radius: 15px;
+  margin: 0 5px;
+  font-size: 0.9rem;
+}
+
+.overview {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin-top: 1rem;
+}
+
+/* Responsive for larger screens */
+@media (min-width: 768px) {
+  .movie-container {
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: center;
+    text-align: left;
+  }
+
+  .details {
+    margin-left: 2rem;
+  }
+}
