@@ -16,10 +16,27 @@ export class MovieService {
 
   // Signal to hold the current movie ID
   movieId = signal(11);
-
+  genreId = signal(28);
   // Resource created at the top level, using the signal
   movieByIdResource = httpResource<IMovie>(
     () => `https://api.themoviedb.org/3/movie/${this.movieId()}?api_key=${this.apiKey}`,
     { defaultValue: {} as IMovie }
   );
+
+  popularMoviesResource = httpResource<IMovie[]>(
+    () => `https://api.themoviedb.org/3/movie/popular?api_key=${this.apiKey}`)
+  
+  RecommendedMoviesResource = httpResource<IMovie[]>(
+    () => `https://api.themoviedb.org/3/movie/recommendations?api_key=${this.apiKey}&language=en-US&page=1`,
+    { defaultValue: [] as IMovie[] })
+
+  GenreResource = httpResource<IMovie[]>(
+    () => `https://api.themoviedb.org/3/genre/movie/list?api_key=${this.apiKey}&language=en-US`,
+    { defaultValue: [] as IMovie[] }
+  );
+  MovieByGenreResource = httpResource<IMovie[]>(
+    () => `https://api.themoviedb.org/3/discover/movie?api_key=${this.apiKey}&with_genres=${this.genreId()}`,
+    { defaultValue: [] as IMovie[] }
+  );
+  
 }
