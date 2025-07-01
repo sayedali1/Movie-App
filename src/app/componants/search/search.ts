@@ -1,6 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+<<<<<<< Updated upstream
+=======
+
+import { Router } from '@angular/router';
+>>>>>>> Stashed changes
 @Component({
   selector: 'app-search',
   imports: [CommonModule, FormsModule],
