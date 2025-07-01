@@ -8,7 +8,7 @@ import { Allgenre } from './componants/allgenre/allgenre';
 import { GenreMovies } from './componants/genre-movies/genre-movies';
 export const routes: Routes = [
   { path: '', component: HomeComponant, title: 'Home' },
-  { path: 'movies', component: MovieCard, title: 'movies' },
+  { path: 'movies', component: Allgenre, title: 'movies' },
   { path: 'search', component: SearchResult, title: 'search-Result' },
   {
     path: 'genre',

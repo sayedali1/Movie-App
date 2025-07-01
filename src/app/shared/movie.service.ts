@@ -1,23 +1,23 @@
 import { HttpClient, httpResource } from '@angular/common/http';
 import { Injectable, signal } from '@angular/core';
 import { IMovie } from '../Models/imovie';
-import { environment } from '../../environments/environment';
+import { environment } from '../../environments/environment.development';
+import { Observable, forkJoin } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 import { IMovieListResponse } from '../Models/imovie-list-response';
-import { forkJoin, map, Observable, switchMap } from 'rxjs';
 import { IGenre } from '../Models/igenre';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MovieService {
-  genreId = signal(1);
   private apiKey = 'bcad6a5fd95f7448a5012ec53ec75177';
 
   constructor(private http: HttpClient) {}
   // Signal to hold the current movie ID
   movieId = signal(11);
 
-  // Default genre ID, can be changed later
+  genreId = signal(28); // Default genre ID, can be changed later
 
   // Resource created at the top level, using the signal
   movieByIdResource = httpResource<IMovie>(
@@ -58,8 +58,7 @@ export class MovieService {
 
   GenreResource = httpResource<{ genres: IGenre[] }>(
     () =>
-      `${environment.pathUrl}genre/movie/list?api_key=${environment.apiKey}&language=en-US`,
-    { defaultValue: { genres: [] } }
+      `${environment.pathUrl}genre/movie/list?api_key=${environment.apiKey}&language=en-US`
   );
   getGenres(): Observable<{ genres: IGenre[] }> {
     return this.http.get<{ genres: IGenre[] }>(
