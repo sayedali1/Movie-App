@@ -4,7 +4,7 @@ import {
   Inject,
   inject,
   Input,
-  OnInit,
+  Output, EventEmitter, computed
 } from '@angular/core';
 import { MovieService } from '../../shared/movie.service';
 import { CommonModule } from '@angular/common';
@@ -22,28 +22,20 @@ declare const AOS: any; // Add this if you get a TS error about AOS
 })
 export class MovieCard {
   movieService = inject(MovieService);
-  isFavorite = false;
-  @Input() movie?: IMovie;
   wishlistService = inject(WishlistService);
+  @Input() movie?: IMovie;
+  @Output() toggleWishlist = new EventEmitter<number>();
+  isInWishlist = computed(() => (this.movie ? this.wishlistService.isInWishlist(this.movie.id) : false));
 
-  // constructor() {
-  //   this.movieService.movieId.set(11);
-  //   // Reactively update movie when data is loaded
-  //   effect(() => {
-  //     if (!this.movieService.movieByIdResource.isLoading()) {
-  //       this.movie = this.movieService.movieByIdResource.value();
-  //       console.log('Movie data:', this.movie);
-  //     }
-  //   });
-  // }
+  constructor() {}
 
-  toggleFavorite() {
-    this.isFavorite = !this.isFavorite;
-    if (this.isFavorite && this.movie) {
+  toggleWishlistStatus(): void {
+    if (!this.movie) return;
+    if (this.isInWishlist()) {
+      this.wishlistService.removeFromWishlist(this.movie.id);
+    } else {
       this.wishlistService.addToWishlist(this.movie);
-    } else if (this.movie) {
-      this.wishlistService.removeFromWishlist(this.movie);
     }
-    console.log('Favorite status:', this.wishlistService.items());
+    this.toggleWishlist.emit(this.movie.id);
   }
 }
