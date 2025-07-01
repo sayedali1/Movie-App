@@ -16,7 +16,7 @@ export class MovieService {
   addToWishlist(arg0: any) {
     throw new Error('Method not implemented.');
   }
-  // private apiKey = 'bcad6a5fd95f7448a5012ec53ec75177';
+  private apiKey = '54e4c1f2712d7651666ba7e25f5af2e6';
 
   // Signal to hold the current movie ID
   movieId = signal(11);
