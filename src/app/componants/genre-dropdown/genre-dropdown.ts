@@ -15,6 +15,7 @@ export class GenreDropdown implements OnInit {
   private router = inject(Router);
 
   genres = signal<IGenre[]>([]);
+  isOpen = signal<boolean>(false); // الحالة الرئيسية
 
   ngOnInit(): void {
     this.movieService.getAllGenres().subscribe({
@@ -23,7 +24,12 @@ export class GenreDropdown implements OnInit {
     });
   }
 
-  navigateToGenre(id: number) {
+  toggleGenres() {
+    this.isOpen.update((v) => !v);
+  }
+
+  selectGenre(id: number) {
     this.router.navigate(['/genre'], { queryParams: { id, page: 1 } });
+    this.isOpen.set(false); // 👈 يغلق القائمة بعد الاختيار
   }
 }

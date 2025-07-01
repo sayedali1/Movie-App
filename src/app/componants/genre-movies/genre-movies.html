@@ -1,9 +1,9 @@
-<section class="flex min-h-screen">
-  <aside class="w-64 bg-gray-100 p-4">
+<section class="flex flex-col lg:flex-row min-h-screen">
+  <aside class="w-full lg:w-64 bg-gray-100 p-4">
     <app-genre-dropdown></app-genre-dropdown>
   </aside>
 
-  <div class="flex-1 p-6">
+  <div class="flex-1 p-4 sm:p-6">
     <h2 class="text-2xl font-bold mb-4">
       Movies in: <span class="text-blue-600">{{ genreName }}</span>
     </h2>
@@ -11,7 +11,9 @@
     <div *ngIf="loading">Loading...</div>
 
     <div *ngIf="!loading && movies.length > 0">
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+      <div
+        class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-6"
+      >
         <app-movie-summary-card
           *ngFor="let movie of movies"
           [movie]="movie"
@@ -20,7 +22,6 @@
 
       <!-- Pagination -->
       <div class="flex justify-center items-center gap-2 mt-8 mb-4 flex-wrap">
-        <!-- زر السابق -->
         <button
           class="px-3 py-1 rounded bg-gray-200 hover:bg-blue-400"
           [disabled]="currentPage === 1"
@@ -29,7 +30,6 @@
           &laquo;
         </button>
 
-        <!-- أرقام الصفحات -->
         <button
           *ngFor="let page of paginationRange"
           class="px-3 py-1 rounded bg-gray-200 hover:bg-blue-400"
@@ -40,7 +40,6 @@
           {{ page }}
         </button>
 
-        <!-- زر التالي -->
         <button
           class="px-3 py-1 rounded bg-gray-200 hover:bg-blue-400"
           [disabled]="currentPage === totalPages"
