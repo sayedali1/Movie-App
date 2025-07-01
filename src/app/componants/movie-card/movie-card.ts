@@ -17,7 +17,7 @@ declare const AOS: any; // Add this if you get a TS error about AOS
 
 @Component({
   selector: 'app-movie-card',
-  imports: [CommonModule, RouterModule, GenreDropdown],
+  imports: [CommonModule, RouterModule],
   templateUrl: './movie-card.html',
   styleUrl: './movie-card.css',
 })

@@ -1,0 +1,58 @@
+<section class="flex min-h-screen">
+  <aside class="w-64 bg-gray-100 p-4">
+    <app-genre-dropdown></app-genre-dropdown>
+  </aside>
+
+  <div class="flex-1 p-6">
+    <h2 class="text-2xl font-bold mb-4">
+      Movies in: <span class="text-blue-600">{{ genreName }}</span>
+    </h2>
+
+    <div *ngIf="loading">Loading...</div>
+
+    <div *ngIf="!loading && movies.length > 0">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+        <app-movie-summary-card
+          *ngFor="let movie of movies"
+          [movie]="movie"
+        ></app-movie-summary-card>
+      </div>
+
+      <!-- Pagination -->
+      <div class="flex justify-center items-center gap-2 mt-8 mb-4 flex-wrap">
+        <!-- زر السابق -->
+        <button
+          class="px-3 py-1 rounded bg-gray-200 hover:bg-blue-400"
+          [disabled]="currentPage === 1"
+          (click)="goToPage(currentPage - 1)"
+        >
+          &laquo;
+        </button>
+
+        <!-- أرقام الصفحات -->
+        <button
+          *ngFor="let page of paginationRange"
+          class="px-3 py-1 rounded bg-gray-200 hover:bg-blue-400"
+          [class.bg-blue-600]="page === currentPage"
+          [class.text-white]="page === currentPage"
+          (click)="goToPage(page)"
+        >
+          {{ page }}
+        </button>
+
+        <!-- زر التالي -->
+        <button
+          class="px-3 py-1 rounded bg-gray-200 hover:bg-blue-400"
+          [disabled]="currentPage === totalPages"
+          (click)="goToPage(currentPage + 1)"
+        >
+          &raquo;
+        </button>
+      </div>
+    </div>
+
+    <div *ngIf="!loading && movies.length === 0" class="text-gray-600">
+      No movies found for this genre.
+    </div>
+  </div>
+</section>

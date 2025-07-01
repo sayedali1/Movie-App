@@ -1,6 +1,9 @@
-<select (change)="onGenreSelect($event)">
-  <option value="">--choes our genre film---</option>
-  <option *ngFor="let genre of genres()" [value]="genre.id">
+<ul class="genre-list">
+  <li
+    *ngFor="let genre of genres()"
+    (click)="navigateToGenre(genre.id)"
+    class="genre-item"
+  >
     {{ genre.name }}
-  </option>
-</select>
+  </li>
+</ul>

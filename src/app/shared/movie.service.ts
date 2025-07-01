@@ -109,4 +109,11 @@ export class MovieService {
       )
     );
   }
+  getMoviesByGenreWithPagination(
+    genreId: number,
+    page: number
+  ): Observable<{ results: IMovie[]; total_pages: number }> {
+    const url = `${environment.pathUrl}discover/movie?api_key=${environment.apiKey}&with_genres=${genreId}&page=${page}`;
+    return this.http.get<{ results: IMovie[]; total_pages: number }>(url);
+  }
 }

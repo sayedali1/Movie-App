@@ -1,33 +1,29 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { MovieService } from '../../shared/movie.service';
 import { Router } from '@angular/router';
 import { IGenre } from '../../Models/igenre';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-genre-dropdown',
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './genre-dropdown.html',
   styleUrl: './genre-dropdown.css',
 })
-export class GenreDropdown {
+export class GenreDropdown implements OnInit {
   private movieService = inject(MovieService);
   private router = inject(Router);
 
-  selectedGenreId = signal<number | null>(null);
   genres = signal<IGenre[]>([]);
 
-  constructor() {
-    this.movieService.getGenres().subscribe({
-      next: (res) => this.genres.set(res.genres),
+  ngOnInit(): void {
+    this.movieService.getAllGenres().subscribe({
+      next: (genres) => this.genres.set(genres),
       error: (err) => console.error('Error loading genres', err),
     });
   }
 
-  onGenreSelect(event: Event) {
-    const id = Number((event.target as HTMLSelectElement).value);
-    if (!isNaN(id)) {
-      this.selectedGenreId.set(id);
-      this.router.navigate(['/genre'], { queryParams: { id, page: 1 } });
-    }
+  navigateToGenre(id: number) {
+    this.router.navigate(['/genre'], { queryParams: { id, page: 1 } });
   }
 }
