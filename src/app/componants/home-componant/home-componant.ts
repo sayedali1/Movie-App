@@ -1,14 +1,20 @@
 import { Component, effect, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { Pagination } from '../pagination/pagination';
+import { Search } from '../search/search';
+
 import { MovieService } from '../../shared/movie.service';
+
 
 @Component({
   selector: 'app-home-componant',
-  imports: [RouterModule],
+  imports: [RouterModule, Pagination, Search],
   templateUrl: './home-componant.html',
-  styleUrl: './home-componant.css'
+  styleUrl: './home-componant.css',
 })
 export class HomeComponant {
+
+
   MovieService = inject(MovieService);
   
   constructor() { 
@@ -19,6 +25,7 @@ export class HomeComponant {
     //     console.log('Popular Movies:', movies);
     //   }
     // });
+
     effect(() => {
 
       if(this.MovieService.popularMoviesResource.hasValue()){
@@ -35,6 +42,4 @@ export class HomeComponant {
     })
 
   }
-
-  
 }
