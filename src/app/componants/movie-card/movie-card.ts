@@ -26,16 +26,16 @@ export class MovieCard {
   @Input() movie?: IMovie;
   wishlistService = inject(WishlistService);
 
-  constructor() {
-    this.movieService.movieId.set(11);
-    // Reactively update movie when data is loaded
-    effect(() => {
-      if (!this.movieService.movieByIdResource.isLoading()) {
-        this.movie = this.movieService.movieByIdResource.value();
-        console.log('Movie data:', this.movie);
-      }
-    });
-  }
+  // constructor() {
+  //   this.movieService.movieId.set(11);
+  //   // Reactively update movie when data is loaded
+  //   effect(() => {
+  //     if (!this.movieService.movieByIdResource.isLoading()) {
+  //       this.movie = this.movieService.movieByIdResource.value();
+  //       console.log('Movie data:', this.movie);
+  //     }
+  //   });
+  // }
 
   toggleFavorite() {
     this.isFavorite = !this.isFavorite;
