@@ -32,8 +32,11 @@ export class SearchResult implements OnInit {
     this.route.queryParams.subscribe((params) => {
       this.searchQuery = params['q'] || '';
       const pageParam = Number(params['page']) || 1;
-      if (this.searchQuery) {
+
+      if (this.searchQuery.trim()) {
         this.fetchSearchResults(this.searchQuery, pageParam);
+      } else {
+        this.fetchPopularMovies(pageParam);
       }
     });
   }
@@ -73,11 +76,31 @@ export class SearchResult implements OnInit {
       },
     });
   }
+  fetchPopularMovies(page: number = 1) {
+    this.loading = true;
+    this.movieService.getMoviesByPage(page).subscribe({
+      next: (res) => {
+        this.searchResults = res.results || [];
+        this.totalPages = res.total_pages;
+        this.currentPage = res.page;
+        this.updateVisiblePages();
+        this.loading = false;
+      },
+      error: (err) => {
+        console.error('Popular Movies Error:', err);
+        this.loading = false;
+      },
+    });
+  }
 
   goToPage(page: number) {
-    if (page < 1 || page > this.totalPages) return;
     history.replaceState({}, '', `/search?q=${this.searchQuery}&page=${page}`);
-    this.fetchSearchResults(this.searchQuery, page);
+
+    if (this.searchQuery.trim()) {
+      this.fetchSearchResults(this.searchQuery, page);
+    } else {
+      this.fetchPopularMovies(page);
+    }
   }
 
   goToPrevSet() {
