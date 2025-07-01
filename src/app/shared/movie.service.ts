@@ -37,18 +37,18 @@ export class MovieService {
   }
 
   popularMoviesResource = httpResource<IMovie[]>(
-    () => `https://api.themoviedb.org/3/movie/popular?api_key=${this.apiKey}`)
+    () => `${environment.pathUrl}movie/popular?api_key=${environment.apiKey}`)
   
   RecommendedMoviesResource = httpResource<IMovie[]>(
-    () => `https://api.themoviedb.org/3/movie/recommendations?api_key=${this.apiKey}&language=en-US&page=1`,
+    () => `${environment.pathUrl}movie/recommendations?api_key=${environment.apiKey}&language=en-US&page=1`,
     { defaultValue: [] as IMovie[] })
 
   GenreResource = httpResource<IMovie[]>(
-    () => `https://api.themoviedb.org/3/genre/movie/list?api_key=${this.apiKey}&language=en-US`,
+    () => `${environment.pathUrl}genre/movie/list?api_key=${environment.apiKey}&language=en-US`,
     { defaultValue: [] as IMovie[] }
   );
   MovieByGenreResource = httpResource<IMovie[]>(
-    () => `https://api.themoviedb.org/3/discover/movie?api_key=${this.apiKey}&with_genres=${this.genreId()}`,
+    () => `${environment.pathUrl}discover/movie?api_key=${environment.apiKey}&with_genres=${this.genreId()}`,
     { defaultValue: [] as IMovie[] }
   );
   
