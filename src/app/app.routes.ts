@@ -7,7 +7,7 @@ import { SearchResult } from './componants/search-result/search-result';
 import { Allgenre } from './componants/allgenre/allgenre';
 export const routes: Routes = [
   { path: '', component: HomeComponant, title: 'Home' },
-  { path: 'movies', component: MovieCard, title: 'movies' },
+  { path: 'movies', component: Allgenre, title: 'movies' },
   { path: 'search', component: SearchResult, title: 'search-Result' },
 
 
