@@ -9,14 +9,19 @@ import { MovieSummaryCard } from '../movie-summary-card/movie-summary-card';
 
 @Component({
   selector: 'app-search-result',
-  imports: [CommonModule, MovieCard, Search, MovieSummaryCard],
+  imports: [CommonModule, Search, MovieSummaryCard],
   templateUrl: './search-result.html',
   styleUrl: './search-result.css',
 })
 export class SearchResult implements OnInit {
   searchQuery: string = '';
   searchResults: IMovie[] = [];
+  totalPages: number = 0;
+  currentPage: number = 1;
+  pages: number[] = [];
   loading = false;
+  visiblePages: number[] = [];
+  maxVisible = 10;
 
   constructor(
     private route: ActivatedRoute,
@@ -26,24 +31,40 @@ export class SearchResult implements OnInit {
   ngOnInit() {
     this.route.queryParams.subscribe((params) => {
       this.searchQuery = params['q'] || '';
+      const pageParam = Number(params['page']) || 1;
       if (this.searchQuery) {
-        this.fetchSearchResults(this.searchQuery);
+        this.fetchSearchResults(this.searchQuery, pageParam);
       }
     });
   }
 
   handleSearch(query: string) {
     this.searchQuery = query;
-    history.replaceState({}, '', `/search?q=${query}`);
-    this.fetchSearchResults(query);
+    this.currentPage = 1;
+    history.replaceState({}, '', `/search?q=${query}&page=1`);
+    this.fetchSearchResults(query, 1);
   }
 
-  fetchSearchResults(query: string) {
+  updateVisiblePages() {
+    const start =
+      Math.floor((this.currentPage - 1) / this.maxVisible) * this.maxVisible +
+      1;
+    const end = Math.min(start + this.maxVisible - 1, this.totalPages);
+    this.visiblePages = [];
+    for (let i = start; i <= end; i++) {
+      this.visiblePages.push(i);
+    }
+  }
+
+  fetchSearchResults(query: string, page: number = 1) {
     this.loading = true;
-    this.movieService.searchMovies(query).subscribe({
+    this.movieService.searchMovies(query, page).subscribe({
       next: (res) => {
         this.searchResults = res.results || [];
-        console.log('Search Results:', this.searchResults);
+        this.totalPages = res.total_pages;
+        this.currentPage = res.page;
+
+        this.updateVisiblePages();
         this.loading = false;
       },
       error: (err) => {
@@ -51,5 +72,25 @@ export class SearchResult implements OnInit {
         this.loading = false;
       },
     });
+  }
+
+  goToPage(page: number) {
+    if (page < 1 || page > this.totalPages) return;
+    history.replaceState({}, '', `/search?q=${this.searchQuery}&page=${page}`);
+    this.fetchSearchResults(this.searchQuery, page);
+  }
+
+  goToPrevSet() {
+    const prevPage = this.visiblePages[0] - 1;
+    if (prevPage >= 1) {
+      this.goToPage(prevPage);
+    }
+  }
+
+  goToNextSet() {
+    const nextPage = this.visiblePages[this.visiblePages.length - 1] + 1;
+    if (nextPage <= this.totalPages) {
+      this.goToPage(nextPage);
+    }
   }
 }

@@ -26,4 +26,24 @@
   >
     No results found for "{{ searchQuery }}"
   </div>
+  <div class="pagination-container" *ngIf="visiblePages.length > 1">
+    <button (click)="goToPrevSet()" [disabled]="visiblePages[0] === 1">
+      «
+    </button>
+
+    <button
+      *ngFor="let page of visiblePages"
+      (click)="goToPage(page)"
+      [class.active]="page === currentPage"
+    >
+      {{ page }}
+    </button>
+
+    <button
+      (click)="goToNextSet()"
+      [disabled]="visiblePages[visiblePages.length - 1] === totalPages"
+    >
+      »
+    </button>
+  </div>
 </section>

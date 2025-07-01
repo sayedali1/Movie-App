@@ -1,9 +1,9 @@
 import { HttpClient, httpResource } from '@angular/common/http';
 import { Injectable, signal } from '@angular/core';
 import { IMovie } from '../Models/imovie';
-import { environment } from '../../environments/environment.development';
-import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 import { IMovieListResponse } from '../Models/imovie-list-response';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -25,15 +25,22 @@ export class MovieService {
     { defaultValue: {} as IMovie }
   );
 
+  popularMovies = httpResource<{ results: IMovie[] }>(
+    () => `${environment.pathUrl}movie/popular?api_key=${environment.apiKey}`,
+    { defaultValue: { results: [] } }
+  );
+
   getMoviesByPage(page: number): Observable<IMovieListResponse> {
     const url = `${environment.pathUrl}movie/popular?api_key=${environment.apiKey}&page=${page}`;
     return this.http.get<IMovieListResponse>(url);
   }
 
-  searchMovies(query: string): Observable<{ results: IMovie[] }> {
-    return this.http.get<{ results: IMovie[] }>(
-      `${environment.pathUrl}search/movie?query=${query}&api_key=${environment.apiKey}`
-    );
+  searchMovies(
+    query: string,
+    page: number = 1
+  ): Observable<IMovieListResponse> {
+    const url = `${environment.pathUrl}search/movie?api_key=${environment.apiKey}&query=${query}&page=${page}`;
+    return this.http.get<IMovieListResponse>(url);
   }
 
   popularMoviesResource = httpResource<IMovie[]>(
