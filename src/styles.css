@@ -1,2 +1,15 @@
 /* You can add global styles to this file, and also import other style files */
 @import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Default (light) */
+body {
+  @apply bg-white text-gray-900;
+}
+
+/* Dark mode when .dark class موجودة على <html> */
+.dark body {
+  @apply bg-gray-900 text-gray-100;
+}

@@ -6,11 +6,12 @@ import { MovieSummaryCard } from '../movie-summary-card/movie-summary-card';
 import { CommonModule } from '@angular/common';
 import { IGenre } from '../../Models/igenre';
 import { GenreDropdown } from '../genre-dropdown/genre-dropdown';
+import { MovieCard } from '../movie-card/movie-card';
 
 @Component({
   selector: 'app-genre-movies',
   standalone: true,
-  imports: [MovieSummaryCard, CommonModule, GenreDropdown],
+  imports: [MovieSummaryCard, CommonModule, GenreDropdown, MovieCard],
   templateUrl: './genre-movies.html',
   styleUrl: './genre-movies.css',
 })
