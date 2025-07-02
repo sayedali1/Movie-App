@@ -1,13 +1,16 @@
 import { Component, HostListener } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { WishlistService } from '../../shared/wishlist.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-navbar',
-  imports: [RouterLink],
+  imports: [RouterLink,CommonModule],
   templateUrl: './navbar.html',
   styleUrl: './navbar.css'
 })
-export class Navbar {
+export class Navbar  {
+  constructor(public wishlistService: WishlistService){}
   opacity = 1;
 
   @HostListener('window:scroll', [])
