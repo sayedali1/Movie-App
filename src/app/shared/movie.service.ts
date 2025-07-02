@@ -22,7 +22,7 @@ export class MovieService {
   private apiKey = '54e4c1f2712d7651666ba7e25f5af2e6';
 
 
-  constructor(private http: HttpClient) {}
+  
   // Signal to hold the current movie ID
   movieId = signal(11);
 
@@ -115,6 +115,13 @@ export class MovieService {
         )
       )
     );
+  }
+  getMoviesByGenreWithPagination(
+    genreId: number,
+    page: number
+  ): Observable<{ results: IMovie[]; total_pages: number }> {
+    const url = `${environment.pathUrl}discover/movie?api_key=${environment.apiKey}&with_genres=${genreId}&page=${page}`;
+    return this.http.get<{ results: IMovie[]; total_pages: number }>(url);
   }
 
 }

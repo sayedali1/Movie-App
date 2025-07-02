@@ -1,0 +1,19 @@
+<div>
+  <button
+    class="w-full text-left font-bold text-lg mb-2 flex justify-between items-center"
+    (click)="toggleGenres()"
+  >
+    Genres
+    <span>{{ isOpen() ? '▲' : '▼' }}</span>
+  </button>
+
+  <ul *ngIf="isOpen()" class="space-y-2">
+    <li
+      *ngFor="let genre of genres()"
+      (click)="selectGenre(genre.id)"
+      class="cursor-pointer hover:text-blue-600 transition"
+    >
+      {{ genre.name }}
+    </li>
+  </ul>
+</div>

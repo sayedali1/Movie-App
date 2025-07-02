@@ -11,6 +11,7 @@ import { CommonModule } from '@angular/common';
 import { RouterLink, RouterModule } from '@angular/router';
 import { IMovie } from '../../Models/imovie';
 import { WishlistService } from '../../shared/wishlist.service';
+import { GenreDropdown } from '../genre-dropdown/genre-dropdown';
 
 declare const AOS: any; // Add this if you get a TS error about AOS
 
