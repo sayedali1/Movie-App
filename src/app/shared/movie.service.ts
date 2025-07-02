@@ -22,7 +22,7 @@ export class MovieService {
   private apiKey = '54e4c1f2712d7651666ba7e25f5af2e6';
 
 
-  constructor(private http: HttpClient) {}
+  
   // Signal to hold the current movie ID
   movieId = signal(11);
 
