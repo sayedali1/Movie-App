@@ -12,7 +12,7 @@ import { IGenre } from '../Models/igenre';
   providedIn: 'root',
 })
 export class MovieService {
-  constructor(private http: HttpClient) {}
+  
   removeFromWishlist(arg0: any) {
     throw new Error('Method not implemented.');
   }

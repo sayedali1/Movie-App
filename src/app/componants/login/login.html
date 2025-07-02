@@ -1,30 +1,30 @@
 <div class="max-w-md mx-auto mt-10 bg-white p-6 rounded shadow">
-  <h2 class="text-2xl font-bold mb-6 text-center">تسجيل الدخول</h2>
+  <h2 class="text-2xl font-bold mb-6 text-center">Login</h2>
   <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" novalidate>
 
-    <!-- البريد -->
+    <!-- Email -->
     <div class="mb-4">
-      <label class="block mb-1">البريد الإلكتروني</label>
+      <label class="block mb-1">Email</label>
       <input type="email" formControlName="email" class="w-full border rounded px-3 py-2"
              [ngClass]="{'border-red-500': submitted && f['email'].errors}">
       <div *ngIf="submitted && f['email'].errors" class="text-red-500 text-sm">
-        <div *ngIf="f['email'].errors?.['required']">البريد مطلوب.</div>
-        <div *ngIf="f['email'].errors?.['email']">صيغة البريد غير صحيحة.</div>
+        <div *ngIf="f['email'].errors?.['required']">Email is required.</div>
+        <div *ngIf="f['email'].errors?.['email']">Invalid email format.</div>
       </div>
     </div>
 
-    <!-- كلمة المرور -->
+    <!-- Password -->
     <div class="mb-4">
-      <label class="block mb-1">كلمة المرور</label>
+      <label class="block mb-1">Password</label>
       <input type="password" formControlName="password" class="w-full border rounded px-3 py-2"
              [ngClass]="{'border-red-500': submitted && f['password'].errors}">
       <div *ngIf="submitted && f['password'].errors" class="text-red-500 text-sm">
-        <div *ngIf="f['password'].errors?.['required']">كلمة المرور مطلوبة.</div>
-        <div *ngIf="f['password'].errors?.['minlength']">6 أحرف على الأقل.</div>
+        <div *ngIf="f['password'].errors?.['required']">Password is required.</div>
+        <div *ngIf="f['password'].errors?.['minlength']">Minimum 6 characters required.</div>
       </div>
     </div>
 
-    <!-- زر الدخول -->
-    <button class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">دخول</button>
+    <!-- Submit Button -->
+    <button class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Login</button>
   </form>
 </div>
