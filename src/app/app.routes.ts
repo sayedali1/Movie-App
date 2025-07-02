@@ -6,11 +6,18 @@ import { Wishlist } from './componants/wishlist/wishlist';
 
 import { SearchResult } from './componants/search-result/search-result';
 import { Allgenre } from './componants/allgenre/allgenre';
+import { GenreMovies } from './componants/genre-movies/genre-movies';
 export const routes: Routes = [
   
     { path: '', component: HomeComponant },
     { path: 'wishlist', component: Wishlist },
   { path: '', component: HomeComponant, title: 'Home' },
   { path: 'movies', component: Allgenre, title: 'movies' },
-  { path: 'search', component: SearchResult, title: 'search-Result' }
+
+  { path: 'search', component: SearchResult, title: 'search-Result' },
+  {
+    path: 'genre',
+    component: GenreMovies,
+  },
+
 ];

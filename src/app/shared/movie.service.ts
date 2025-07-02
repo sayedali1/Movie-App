@@ -1,7 +1,6 @@
 import { HttpClient, httpResource } from '@angular/common/http';
 import { Injectable, signal } from '@angular/core';
 import { IMovie } from '../Models/imovie';
-
 import { environment } from '../../environments/environment.development';
 import { Observable, forkJoin } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
@@ -11,7 +10,9 @@ import { IGenre } from '../Models/igenre';
 @Injectable({
   providedIn: 'root',
 })
-export class MovieService {
+
+  private apiKey = 'bcad6a5fd95f7448a5012ec53ec75177';
+
   constructor(private http: HttpClient) {}
   removeFromWishlist(arg0: any) {
     throw new Error('Method not implemented.');
@@ -42,7 +43,6 @@ export class MovieService {
     { defaultValue: { results: [] } }
   );
 
-
   getMoviesByPage(page: number): Observable<IMovieListResponse> {
     const url = `${environment.pathUrl}movie/popular?api_key=${environment.apiKey}&page=${page}`;
     return this.http.get<IMovieListResponse>(url);
@@ -60,22 +60,24 @@ export class MovieService {
     () => `${environment.pathUrl}movie/popular?api_key=${environment.apiKey}`
   );
 
-
   RecommendedMoviesResource = httpResource<IMovie[]>(
     () =>
       `${environment.pathUrl}movie/recommendations?api_key=${environment.apiKey}&language=en-US&page=1`,
     { defaultValue: [] as IMovie[] }
   );
 
-  GenreResource = httpResource<IMovie[]>(
+  GenreResource = httpResource<{ genres: IGenre[] }>(
     () =>
-      `${environment.pathUrl}genre/movie/list?api_key=${environment.apiKey}&language=en-US`,
-
+      `${environment.pathUrl}genre/movie/list?api_key=${environment.apiKey}&language=en-US`
   );
+  getGenres(): Observable<{ genres: IGenre[] }> {
+    return this.http.get<{ genres: IGenre[] }>(
+      `${environment.pathUrl}genre/movie/list?api_key=${environment.apiKey}&language=en-US`
+    );
+  }
 
   MovieByGenreResource = httpResource<IMovie[]>(
     () =>
-
       `${environment.pathUrl}discover/movie?api_key=${
         environment.apiKey
       }&with_genres=${this.genreId()}`,
@@ -106,7 +108,7 @@ export class MovieService {
           movies$: this.getMoviesByGenre(genre.id),
         }))
       ),
-     
+
       switchMap((genreWithMovies$Arr) =>
         forkJoin(
           genreWithMovies$Arr.map((gm) =>
@@ -116,5 +118,11 @@ export class MovieService {
       )
     );
   }
-
+  getMoviesByGenreWithPagination(
+    genreId: number,
+    page: number
+  ): Observable<{ results: IMovie[]; total_pages: number }> {
+    const url = `${environment.pathUrl}discover/movie?api_key=${environment.apiKey}&with_genres=${genreId}&page=${page}`;
+    return this.http.get<{ results: IMovie[]; total_pages: number }>(url);
+  }
 }
