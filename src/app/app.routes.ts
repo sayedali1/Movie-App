@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { MovieDetails } from './componants/movie-details/movie-details';
 
 export const routes: Routes = [
   {
@@ -37,7 +38,13 @@ export const routes: Routes = [
       ),
     title: 'Movies by Genre',
   },
-
+  {
+    path: 'movie/:id',
+    loadComponent: () =>
+      import('./componants/movie-details/movie-details').then(
+        (m) => m.MovieDetails
+      ),
+  },
   {
     path: '**',
     redirectTo: '',

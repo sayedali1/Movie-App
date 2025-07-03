@@ -3,6 +3,7 @@ import { MovieService } from '../../shared/movie.service';
 import { MovieCard } from '../movie-card/movie-card';
 import { IMovie } from '../../Models/imovie';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-pagination',
@@ -15,8 +16,11 @@ export class Pagination implements OnInit {
   currentPage = 1;
   totalPages = 10;
 
-  constructor(private movieService: MovieService) {}
+  constructor(private movieService: MovieService, private router: Router) {}
 
+  goToDetails(id: number) {
+    this.router.navigate(['/movie', id]);
+  }
   ngOnInit(): void {
     this.loadMovies();
   }

@@ -89,4 +89,8 @@ export class GenreMovies implements OnInit {
       this.paginationRange.push(i);
     }
   }
+
+  goToDetails(id: number) {
+    this.router.navigate(['/movie', id]);
+  }
 }

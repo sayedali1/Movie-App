@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MovieService } from '../../shared/movie.service';
 import { IMovie } from '../../Models/imovie';
 import { Search } from '../search/search';
@@ -27,8 +27,13 @@ export class SearchResult implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private movieService: MovieService
+    private movieService: MovieService,
+    private router: Router
   ) {}
+
+  goToDetails(id: number) {
+    this.router.navigate(['/movie', id]);
+  }
 
   ngOnInit() {
     this.route.queryParams.subscribe((params) => {

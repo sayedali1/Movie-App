@@ -1,6 +1,7 @@
 <div class="group inline-block">
   <div
     class="card-body relative w-60 h-80 transition-transform duration-300 scale-100 group-hover:scale-110 bg-white dark:bg-gray-800 text-black dark:text-white rounded shadow"
+    (click)="onClick()"
   >
     <img
       [src]="'https://image.tmdb.org/t/p/w500/' + movie?.poster_path"

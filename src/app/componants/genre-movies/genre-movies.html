@@ -14,13 +14,10 @@
       <div
         class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-6"
       >
-        <app-movie-summary-card
-          *ngFor="let movie of movies"
-          [movie]="movie"
-        ></app-movie-summary-card>
         <app-movie-card
           *ngFor="let movie of movies"
           [movie]="movie"
+          (cardClicked)="goToDetails($event)"
         ></app-movie-card>
       </div>
 

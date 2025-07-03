@@ -1,6 +1,10 @@
 <!-- عرض الأفلام -->
 <div class="grid grid-cols-2 md:grid-cols-3 gap-4 p-4">
-  <app-movie-card *ngFor="let movie of movies" [movie]="movie"></app-movie-card>
+  <app-movie-card
+    *ngFor="let movie of movies"
+    [movie]="movie"
+    (cardClicked)="goToDetails($event)"
+  ></app-movie-card>
 </div>
 
 <div class="flex justify-center items-center text-black gap-2 mt-6 flex-wrap">

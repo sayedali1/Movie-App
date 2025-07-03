@@ -18,7 +18,10 @@
           data-aos-once="true"
           class="inline-block"
         >
-          <app-movie-card [movie]="movie"></app-movie-card>
+          <app-movie-card
+            [movie]="movie"
+            (cardClicked)="goToDetails($event)"
+          ></app-movie-card>
         </div>
       </div>
     </div>
