@@ -1,43 +1,45 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { IMovie } from '../../Models/imovie';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MovieCard } from '../movie-card/movie-card';
-import { Search } from '../search/search';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MovieService } from '../../shared/movie.service';
+import { IMovie } from '../../Models/imovie';
+import { Search } from '../search/search';
 import { MovieSummaryCard } from '../movie-summary-card/movie-summary-card';
+import { MovieCard } from '../movie-card/movie-card';
 
 @Component({
   selector: 'app-search-result',
-  imports: [CommonModule, Search, MovieSummaryCard],
+  standalone: true,
+  imports: [CommonModule, Search, MovieCard],
   templateUrl: './search-result.html',
-  styleUrl: './search-result.css',
+  styleUrls: ['./search-result.css'],
 })
 export class SearchResult implements OnInit {
-  searchQuery: string = '';
+  searchQuery = '';
   searchResults: IMovie[] = [];
-  totalPages: number = 0;
-  currentPage: number = 1;
-  pages: number[] = [];
   loading = false;
-  visiblePages: number[] = [];
+
+  // pagination state
+  totalPages = 0;
+  currentPage = 1;
   maxVisible = 10;
+  visiblePages: number[] = [];
 
   constructor(
     private route: ActivatedRoute,
-    private movieService: MovieService
+    private movieService: MovieService,
+    private router: Router
   ) {}
+
+  goToDetails(id: number) {
+    this.router.navigate(['/movie', id]);
+  }
 
   ngOnInit() {
     this.route.queryParams.subscribe((params) => {
       this.searchQuery = params['q'] || '';
-      const pageParam = Number(params['page']) || 1;
-
-      if (this.searchQuery.trim()) {
-        this.fetchSearchResults(this.searchQuery, pageParam);
-      } else {
-        this.fetchPopularMovies(pageParam);
-      }
+      this.currentPage = +(params['page'] || 1);
+      this.loadPage(this.currentPage);
     });
   }
 
@@ -45,7 +47,34 @@ export class SearchResult implements OnInit {
     this.searchQuery = query;
     this.currentPage = 1;
     history.replaceState({}, '', `/search?q=${query}&page=1`);
-    this.fetchSearchResults(query, 1);
+    this.loadPage(1);
+  }
+
+  private loadPage(page: number) {
+    this.loading = true;
+    const obs = this.searchQuery.trim()
+      ? this.movieService.searchMovies(this.searchQuery, page)
+      : this.movieService.getMoviesByPage(page);
+
+    obs.subscribe({
+      next: (res) => {
+        this.searchResults = res.results || [];
+        this.totalPages = res.total_pages;
+        this.currentPage = res.page;
+        this.updateVisiblePages();
+        this.loading = false;
+      },
+      error: (err) => {
+        console.error(err);
+        this.loading = false;
+      },
+    });
+  }
+
+  goToPage(page: number) {
+    if (page < 1 || page > this.totalPages) return;
+    history.replaceState({}, '', `/search?q=${this.searchQuery}&page=${page}`);
+    this.loadPage(page);
   }
 
   updateVisiblePages() {
@@ -59,61 +88,17 @@ export class SearchResult implements OnInit {
     }
   }
 
-  fetchSearchResults(query: string, page: number = 1) {
-    this.loading = true;
-    this.movieService.searchMovies(query, page).subscribe({
-      next: (res) => {
-        this.searchResults = res.results || [];
-        this.totalPages = res.total_pages;
-        this.currentPage = res.page;
-
-        this.updateVisiblePages();
-        this.loading = false;
-      },
-      error: (err) => {
-        console.error('Search API Error:', err);
-        this.loading = false;
-      },
-    });
-  }
-  fetchPopularMovies(page: number = 1) {
-    this.loading = true;
-    this.movieService.getMoviesByPage(page).subscribe({
-      next: (res) => {
-        this.searchResults = res.results || [];
-        this.totalPages = res.total_pages;
-        this.currentPage = res.page;
-        this.updateVisiblePages();
-        this.loading = false;
-      },
-      error: (err) => {
-        console.error('Popular Movies Error:', err);
-        this.loading = false;
-      },
-    });
-  }
-
-  goToPage(page: number) {
-    history.replaceState({}, '', `/search?q=${this.searchQuery}&page=${page}`);
-
-    if (this.searchQuery.trim()) {
-      this.fetchSearchResults(this.searchQuery, page);
-    } else {
-      this.fetchPopularMovies(page);
-    }
+  get paginationRange(): number[] {
+    return this.visiblePages;
   }
 
   goToPrevSet() {
-    const prevPage = this.visiblePages[0] - 1;
-    if (prevPage >= 1) {
-      this.goToPage(prevPage);
-    }
+    const prev = this.visiblePages[0] - 1;
+    if (prev >= 1) this.goToPage(prev);
   }
 
   goToNextSet() {
-    const nextPage = this.visiblePages[this.visiblePages.length - 1] + 1;
-    if (nextPage <= this.totalPages) {
-      this.goToPage(nextPage);
-    }
+    const next = this.visiblePages[this.visiblePages.length - 1] + 1;
+    if (next <= this.totalPages) this.goToPage(next);
   }
 }

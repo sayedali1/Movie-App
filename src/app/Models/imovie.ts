@@ -1,5 +1,4 @@
 export interface IMovie {
-
   adult: boolean;
   backdrop_path: string;
   belongs_to_collection: {
@@ -11,11 +10,10 @@ export interface IMovie {
   budget: number;
   genres: [
     {
-      id: number,
-      name: string
+      id: number;
+      name: string;
     }
-    
-  ],
+  ];
   homepage: string;
   id: number;
   imdb_id: string;
@@ -36,5 +34,10 @@ export interface IMovie {
   video: boolean;
   vote_average: number;
   vote_count: number;
+  production_companies?: {
+    id: number;
+    name: string;
+    logo_path?: string;
+    origin_country?: string;
+  }[];
 }
-

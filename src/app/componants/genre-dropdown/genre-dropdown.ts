@@ -15,7 +15,7 @@ export class GenreDropdown implements OnInit {
   private router = inject(Router);
 
   genres = signal<IGenre[]>([]);
-  isOpen = signal<boolean>(false); // الحالة الرئيسية
+  isOpen = signal<boolean>(false);
 
   ngOnInit(): void {
     this.movieService.getAllGenres().subscribe({
