@@ -1,18 +1,11 @@
 import { Routes } from '@angular/router';
-
-import { MovieDetails } from './componants/movie-details/movie-details';
-
-
-import { MovieCard } from './componants/movie-card/movie-card';
-import { App } from './app';
 import { HomeComponant } from './componants/home-componant/home-componant';
-
-import { SearchResult } from './componants/search-result/search-result';
-import { Allgenre } from './componants/allgenre/allgenre';
-import { GenreMovies } from './componants/genre-movies/genre-movies';
+import { Wishlist } from './componants/wishlist/wishlist';
 import { RegisterComponent } from './componants/register/register';
 import { LoginComponent } from './componants/login/login';
-import { Wishlist } from './componants/wishlist/wishlist';
+import { Allgenre } from './componants/allgenre/allgenre';
+import { SearchResult } from './componants/search-result/search-result';
+
 
 // export const routes: Routes = [
   
@@ -20,10 +13,10 @@ import { Wishlist } from './componants/wishlist/wishlist';
 //     { path: 'wishlist', component: Wishlist },
 //     { path: 'register', component: RegisterComponent },
 //     { path: 'login', component: LoginComponent },
-//   { path: '', component: HomeComponant, title: 'Home' },
+//   // { path: '', component: HomeComponant, title: 'Home' },
 //   { path: 'movies', component: Allgenre, title: 'movies' },
 //   { path: 'search', component: SearchResult, title: 'search-Result' },
-
+// ]
 export const routes: Routes = [
   {
     path: '',
@@ -69,8 +62,23 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'register',
+    loadComponent: () =>
+      import('./componants/register/register').then(
+        (m) => m.RegisterComponent
+      ),
+    title: 'Registration',
+  },
+  {
+    path: 'login',
+    loadComponent: () =>
+      import('./componants/login/login').then(
+        (m) => m.LoginComponent
+      ),
+    title: 'Login',
+  },
+  {
     path: '**',
     redirectTo: '',
   },
-
 ];

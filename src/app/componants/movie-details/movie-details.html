@@ -1,79 +1,87 @@
 <!-- Loading State -->
-<div *ngIf="loading" class="quantum-loading">
-  <p>Loading movie details...</p>
+<div *ngIf="loading" class="flex items-center justify-center min-h-[60vh]">
+  <p class="text-lg text-gray-400">Loading movie details...</p>
 </div>
 
 <!-- Movie Details -->
-<div *ngIf="!loading && movie" class="movie-details-container">
+<div *ngIf="!loading && movie" class="relative bg-gray-900 dark:bg-gray-950 text-white rounded-lg shadow-lg max-w-4xl mx-auto mt-10 p-6">
   <!-- Backdrop Image -->
   <div
-    class="backdrop"
     *ngIf="movie.backdrop_path"
+    class="absolute inset-0 h-64 w-full rounded-lg bg-cover bg-center opacity-30 blur-sm"
     [style.background-image]="'url(https://image.tmdb.org/t/p/original' + movie.backdrop_path + ')'"
   ></div>
 
   <!-- Poster and Title -->
-  <div class="poster-info">
+  <div class="relative z-10 flex flex-col md:flex-row items-center md:items-start gap-6">
     <img
       [src]="'https://image.tmdb.org/t/p/w500' + movie.poster_path"
       [alt]="movie.title"
+      class="w-40 h-60 object-cover rounded-lg shadow-lg border-4 border-gray-800"
     />
-    <div class="title-block">
-      <h1>{{ movie.title }}</h1>
-      <p *ngIf="movie.tagline" class="tagline">"{{ movie.tagline }}"</p>
-      <p><strong>Release Date:</strong> {{ movie.release_date | date }}</p>
-      <p><strong>Runtime:</strong> {{ movie.runtime }} min</p>
-      <p>
-        <strong>Rating:</strong> {{ movie.vote_average }}/10 ({{
-        movie.vote_count | number }} votes)
-      </p>
+    <div class="flex-1">
+      <h1 class="text-3xl font-bold mb-2 text-red-400">{{ movie.title }}</h1>
+      <p *ngIf="movie.tagline" class="italic text-red-200 mb-2">"{{ movie.tagline }}"</p>
+      <div class="flex flex-wrap gap-4 text-sm text-gray-300 mb-2">
+        <span><strong>Release:</strong> {{ movie.release_date | date }}</span>
+        <span><strong>Runtime:</strong> {{ movie.runtime }} min</span>
+        <span>
+          <strong>Rating:</strong>
+          <span class="text-yellow-400 font-semibold">{{ movie.vote_average }}</span>/10
+          <span class="text-gray-400">({{ movie.vote_count | number }} votes)</span>
+        </span>
+      </div>
     </div>
   </div>
 
   <!-- Genres -->
-  <div *ngIf="movie.genres?.length" class="genres">
-    <h3>Genres:</h3>
-    <ul>
-      <li *ngFor="let genre of movie.genres">{{ genre.name }}</li>
+  <div *ngIf="movie.genres?.length" class="mt-6">
+    <h3 class="font-semibold text-lg mb-1 text-red-300">Genres:</h3>
+    <ul class="flex flex-wrap gap-2">
+      <li *ngFor="let genre of movie.genres" class="bg-gray-800 text-gray-200 px-3 py-1 rounded-full text-xs">
+        {{ genre.name }}
+      </li>
     </ul>
   </div>
 
   <!-- Overview -->
-  <div *ngIf="movie.overview" class="overview">
-    <h3>Overview:</h3>
-    <p>{{ movie.overview }}</p>
+  <div *ngIf="movie.overview" class="mt-6">
+    <h3 class="font-semibold text-lg mb-1 text-red-300">Overview:</h3>
+    <p class="text-gray-200">{{ movie.overview }}</p>
   </div>
 
   <!-- Budget and Revenue -->
-  <div class="financials">
+  <div class="flex flex-wrap gap-8 mt-6 text-sm">
     <p *ngIf="movie.budget">
-      <strong>Budget:</strong> ${{ movie.budget | number }}
+      <strong>Budget:</strong>
+      <span class="text-green-400">${{ movie.budget | number }}</span>
     </p>
     <p *ngIf="movie.revenue">
-      <strong>Revenue:</strong> ${{ movie.revenue | number }}
+      <strong>Revenue:</strong>
+      <span class="text-green-400">${{ movie.revenue | number }}</span>
     </p>
   </div>
 
   <!-- Original Info -->
-  <div class="original-info">
+  <div class="flex flex-wrap gap-8 mt-4 text-sm">
     <p>
-      <strong>Original Language:</strong> {{ movie.original_language | uppercase
-      }}
+      <strong>Original Language:</strong>
+      <span class="uppercase">{{ movie.original_language }}</span>
     </p>
     <p><strong>Status:</strong> {{ movie.status }}</p>
   </div>
 
   <!-- Production Companies -->
-  <div *ngIf="movie.production_companies?.length" class="production-companies">
-    <h3>Production Companies:</h3>
-    <ul>
-      <li *ngFor="let company of movie.production_companies">
-        {{ company.name }}
+  <div *ngIf="movie.production_companies?.length" class="mt-6">
+    <h3 class="font-semibold text-lg mb-1 text-red-300">Production Companies:</h3>
+    <ul class="flex flex-wrap gap-6 items-center">
+      <li *ngFor="let company of movie.production_companies" class="flex items-center gap-2">
+        <span>{{ company.name }}</span>
         <img
           *ngIf="company.logo_path"
           [src]="'https://image.tmdb.org/t/p/w200' + company.logo_path"
           [alt]="company.name"
-          width="50"
+          class="h-8 bg-white rounded shadow"
         />
       </li>
     </ul>
@@ -81,6 +89,6 @@
 </div>
 
 <!-- Error State -->
-<div *ngIf="!loading && !movie" class="error">
-  <p>Movie not found. Please try another ID.</p>
+<div *ngIf="!loading && !movie" class="flex items-center justify-center min-h-[60vh]">
+  <p class="text-lg text-red-400">Movie not found. Please try another ID.</p>
 </div>

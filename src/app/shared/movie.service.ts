@@ -36,7 +36,7 @@ export class MovieService {
   );
   getMovieById(id: number): Observable<IMovie> {
     return this.http.get<IMovie>(
-      `${environment.pathUrl}/${id}?api_key=${environment.apiKey}`
+      `${environment.pathUrl}movie/${id}?api_key=${environment.apiKey}`
     );
   }
   popularMovies = httpResource<{ results: IMovie[] }>(

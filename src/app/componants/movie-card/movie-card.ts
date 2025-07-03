@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import { MovieService } from '../../shared/movie.service';
 import { CommonModule } from '@angular/common';
-import { RouterLink, RouterModule } from '@angular/router';
+import { Router, RouterLink, RouterModule } from '@angular/router';
 import { IMovie } from '../../Models/imovie';
 import { WishlistService } from '../../shared/wishlist.service';
 import { GenreDropdown } from '../genre-dropdown/genre-dropdown';
@@ -32,7 +32,8 @@ export class MovieCard {
     this.movie ? this.wishlistService.isInWishlist(this.movie.id) : false
   );
 
-  constructor() {}
+
+  constructor(private router: Router) {}
 
   toggleWishlistStatus(): void {
     if (!this.movie) return;
@@ -48,5 +49,11 @@ export class MovieCard {
 
   onClick() {
     this.cardClicked.emit(this.movie?.id);
+  }
+
+   goToDetails(id: number) {
+    if (id) {
+      this.router.navigate(['/movie', id]);
+    }
   }
 }

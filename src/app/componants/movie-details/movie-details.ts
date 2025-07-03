@@ -20,7 +20,7 @@ export class MovieDetails implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    let id = Number(this.route.snapshot.paramMap.get('Id'));
+    let id = Number(this.route.snapshot.paramMap.get('id')); // <-- lowercase 'id'
 
     this.movieService.getMovieById(id).subscribe({
       next: (data) => {

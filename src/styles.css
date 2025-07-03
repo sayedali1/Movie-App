@@ -1,5 +1,5 @@
 /* Tailwind v4+ global styles */
-@import "tailwindcss/preflight";
+@import "tailwindcss";
 @tailwind utilities;
 
 /* Default (light) */
