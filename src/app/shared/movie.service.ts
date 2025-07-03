@@ -21,8 +21,6 @@ export class MovieService {
   }
   private apiKey = '54e4c1f2712d7651666ba7e25f5af2e6';
 
-
-  
   // Signal to hold the current movie ID
   movieId = signal(11);
 
@@ -36,12 +34,15 @@ export class MovieService {
       }`,
     { defaultValue: {} as IMovie }
   );
-
+  getMovieById(id: number): Observable<IMovie> {
+    return this.http.get<IMovie>(
+      `${environment.pathUrl}/${id}?api_key=${environment.apiKey}`
+    );
+  }
   popularMovies = httpResource<{ results: IMovie[] }>(
     () => `${environment.pathUrl}movie/popular?api_key=${environment.apiKey}`,
     { defaultValue: { results: [] } }
   );
-
 
   getMoviesByPage(page: number): Observable<IMovieListResponse> {
     const url = `${environment.pathUrl}movie/popular?api_key=${environment.apiKey}&page=${page}`;
@@ -60,7 +61,6 @@ export class MovieService {
     () => `${environment.pathUrl}movie/popular?api_key=${environment.apiKey}`
   );
 
-
   RecommendedMoviesResource = httpResource<IMovie[]>(
     () =>
       `${environment.pathUrl}movie/recommendations?api_key=${environment.apiKey}&language=en-US&page=1`,
@@ -69,13 +69,11 @@ export class MovieService {
 
   GenreResource = httpResource<IMovie[]>(
     () =>
-      `${environment.pathUrl}genre/movie/list?api_key=${environment.apiKey}&language=en-US`,
-
+      `${environment.pathUrl}genre/movie/list?api_key=${environment.apiKey}&language=en-US`
   );
 
   MovieByGenreResource = httpResource<IMovie[]>(
     () =>
-
       `${environment.pathUrl}discover/movie?api_key=${
         environment.apiKey
       }&with_genres=${this.genreId()}`,
@@ -106,7 +104,7 @@ export class MovieService {
           movies$: this.getMoviesByGenre(genre.id),
         }))
       ),
-     
+
       switchMap((genreWithMovies$Arr) =>
         forkJoin(
           genreWithMovies$Arr.map((gm) =>
@@ -123,5 +121,4 @@ export class MovieService {
     const url = `${environment.pathUrl}discover/movie?api_key=${environment.apiKey}&with_genres=${genreId}&page=${page}`;
     return this.http.get<{ results: IMovie[]; total_pages: number }>(url);
   }
-
 }

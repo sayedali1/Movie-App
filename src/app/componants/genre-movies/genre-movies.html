@@ -1,5 +1,5 @@
 <section class="flex flex-col lg:flex-row min-h-screen">
-  <aside class="w-full lg:w-64 bg-gray-100 p-4">
+  <aside class="w-full lg:w-64 bg-gray-800 text-white p-4 rounded-md shadow">
     <app-genre-dropdown></app-genre-dropdown>
   </aside>
 
@@ -14,14 +14,17 @@
       <div
         class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-6"
       >
-        <app-movie-summary-card
+        <app-movie-card
           *ngFor="let movie of movies"
           [movie]="movie"
-        ></app-movie-summary-card>
+          (cardClicked)="goToDetails($event)"
+        ></app-movie-card>
       </div>
 
       <!-- Pagination -->
-      <div class="flex justify-center items-center gap-2 mt-8 mb-4 flex-wrap">
+      <div
+        class="flex justify-center text-black items-center gap-2 mt-8 mb-4 flex-wrap"
+      >
         <button
           class="px-3 py-1 rounded bg-gray-200 hover:bg-blue-400"
           [disabled]="currentPage === 1"

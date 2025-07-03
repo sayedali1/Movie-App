@@ -13,9 +13,12 @@
     class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-8"
   >
     @for (movie of searchResults; track $index) {
-    <!-- <app-movie-card [movie]="movie"></app-movie-card> -->
+    <app-movie-card
+      [movie]="movie"
+      (cardClicked)="goToDetails($event)"
+    ></app-movie-card>
 
-    <app-movie-summary-card [movie]="movie"></app-movie-summary-card>
+    <!-- <app-movie-summary-card [movie]="movie"></app-movie-summary-card> -->
     }
   </div>
 
@@ -26,24 +29,31 @@
   >
     No results found for "{{ searchQuery }}"
   </div>
-  <div class="pagination-container" *ngIf="visiblePages.length > 1">
-    <button (click)="goToPrevSet()" [disabled]="visiblePages[0] === 1">
-      «
+  <div class="flex justify-center text-black items-center gap-2 mt-6 flex-wrap">
+    <button
+      class="px-3 py-1 rounded bg-gray-200 hover:bg-blue-400"
+      [disabled]="currentPage === 1"
+      (click)="goToPage(currentPage - 1)"
+    >
+      &laquo;
     </button>
 
     <button
-      *ngFor="let page of visiblePages"
+      *ngFor="let page of paginationRange"
+      class="px-3 py-1 rounded bg-gray-200 hover:bg-blue-400"
+      [class.bg-blue-600]="page === currentPage"
+      [class.text-white]="page === currentPage"
       (click)="goToPage(page)"
-      [class.active]="page === currentPage"
     >
       {{ page }}
     </button>
 
     <button
-      (click)="goToNextSet()"
-      [disabled]="visiblePages[visiblePages.length - 1] === totalPages"
+      class="px-3 py-1 rounded bg-gray-200 hover:bg-blue-400"
+      [disabled]="currentPage === totalPages"
+      (click)="goToPage(currentPage + 1)"
     >
-      »
+      &raquo;
     </button>
   </div>
 </section>

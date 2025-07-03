@@ -6,20 +6,24 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs/internal/Observable';
 import { CommonModule } from '@angular/common';
-import { MovieCard } from "../movie-card/movie-card";
+import { MovieCard } from '../movie-card/movie-card';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-allgenre',
   imports: [CommonModule, MovieCard],
   templateUrl: './allgenre.html',
-  styleUrl: './allgenre.css'
+  styleUrl: './allgenre.css',
 })
 export class Allgenre {
   Moivservice = inject(MovieService);
-  
- genresWithMovies$!: Observable<{ genre: IGenre, movies: IMovie[] }[]>;
-  constructor() {
-   this.genresWithMovies$ = this.Moivservice.getAllGenresWithMovies();
-    
+
+  genresWithMovies$!: Observable<{ genre: IGenre; movies: IMovie[] }[]>;
+  constructor(private router: Router) {
+    this.genresWithMovies$ = this.Moivservice.getAllGenresWithMovies();
+  }
+
+  goToDetails(id: number) {
+    this.router.navigate(['/movie', id]);
   }
 }

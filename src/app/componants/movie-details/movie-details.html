@@ -1,0 +1,86 @@
+<!-- Loading State -->
+<div *ngIf="loading" class="quantum-loading">
+  <p>Loading movie details...</p>
+</div>
+
+<!-- Movie Details -->
+<div *ngIf="!loading && movie" class="movie-details-container">
+  <!-- Backdrop Image -->
+  <div
+    class="backdrop"
+    *ngIf="movie.backdrop_path"
+    [style.background-image]="'url(https://image.tmdb.org/t/p/original' + movie.backdrop_path + ')'"
+  ></div>
+
+  <!-- Poster and Title -->
+  <div class="poster-info">
+    <img
+      [src]="'https://image.tmdb.org/t/p/w500' + movie.poster_path"
+      [alt]="movie.title"
+    />
+    <div class="title-block">
+      <h1>{{ movie.title }}</h1>
+      <p *ngIf="movie.tagline" class="tagline">"{{ movie.tagline }}"</p>
+      <p><strong>Release Date:</strong> {{ movie.release_date | date }}</p>
+      <p><strong>Runtime:</strong> {{ movie.runtime }} min</p>
+      <p>
+        <strong>Rating:</strong> {{ movie.vote_average }}/10 ({{
+        movie.vote_count | number }} votes)
+      </p>
+    </div>
+  </div>
+
+  <!-- Genres -->
+  <div *ngIf="movie.genres?.length" class="genres">
+    <h3>Genres:</h3>
+    <ul>
+      <li *ngFor="let genre of movie.genres">{{ genre.name }}</li>
+    </ul>
+  </div>
+
+  <!-- Overview -->
+  <div *ngIf="movie.overview" class="overview">
+    <h3>Overview:</h3>
+    <p>{{ movie.overview }}</p>
+  </div>
+
+  <!-- Budget and Revenue -->
+  <div class="financials">
+    <p *ngIf="movie.budget">
+      <strong>Budget:</strong> ${{ movie.budget | number }}
+    </p>
+    <p *ngIf="movie.revenue">
+      <strong>Revenue:</strong> ${{ movie.revenue | number }}
+    </p>
+  </div>
+
+  <!-- Original Info -->
+  <div class="original-info">
+    <p>
+      <strong>Original Language:</strong> {{ movie.original_language | uppercase
+      }}
+    </p>
+    <p><strong>Status:</strong> {{ movie.status }}</p>
+  </div>
+
+  <!-- Production Companies -->
+  <div *ngIf="movie.production_companies?.length" class="production-companies">
+    <h3>Production Companies:</h3>
+    <ul>
+      <li *ngFor="let company of movie.production_companies">
+        {{ company.name }}
+        <img
+          *ngIf="company.logo_path"
+          [src]="'https://image.tmdb.org/t/p/w200' + company.logo_path"
+          [alt]="company.name"
+          width="50"
+        />
+      </li>
+    </ul>
+  </div>
+</div>
+
+<!-- Error State -->
+<div *ngIf="!loading && !movie" class="error">
+  <p>Movie not found. Please try another ID.</p>
+</div>
