@@ -1,7 +1,5 @@
-/* You can add global styles to this file, and also import other style files */
-@import "tailwindcss";
-@tailwind base;
-@tailwind components;
+/* Tailwind v4+ global styles */
+@import "tailwindcss/preflight";
 @tailwind utilities;
 
 /* Default (light) */
