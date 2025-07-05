@@ -15,7 +15,7 @@
         <li>
           <a
             routerLink="/"
-            routerLinkActive="text-red-500"
+           
             class="hover:text-red-500 transition"
             >Home</a
           >
@@ -47,7 +47,7 @@
             aria-label="Toggle Theme"
           >
             <i
-              [ngClass]="isDarkMode() ? 'far fa-sun' : 'far fa-moon'"
+              [ngClass]="darkIconClass()"
               class="text-white dark:text-black text-lg"
             ></i>
           </button>

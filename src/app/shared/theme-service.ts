@@ -7,9 +7,8 @@ export class ThemeService {
   private isDarkMode = signal<boolean>(false);
 
   constructor() {
-    const saved = localStorage.getItem('theme');
+    const saved = localStorage.getItem('theme') ?? 'light';
     this.isDarkMode.set(saved === 'dark');
-    this.applyTheme();
   }
 
   get isDarkSignal() {
@@ -21,17 +20,12 @@ export class ThemeService {
   }
 
   toggle() {
-    this.isDarkMode.update((v) => !v);
-    localStorage.setItem('theme', this.isDarkMode() ? 'dark' : 'light');
-    this.applyTheme();
-  }
+    this.isDarkMode.update(v => !v);
+    const newTheme = this.isDarkMode() ? 'dark' : 'light';
+    localStorage.setItem('theme', newTheme);
 
-  init() {
-    this.applyTheme();
-  }
-
-  private applyTheme() {
-    if (this.isDarkMode()) {
+    // Immediately apply class to <html>
+    if (newTheme === 'dark') {
       document.documentElement.classList.add('dark');
     } else {
       document.documentElement.classList.remove('dark');

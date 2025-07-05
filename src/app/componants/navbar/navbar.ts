@@ -18,7 +18,7 @@ import { ThemeService } from '../../shared/theme-service';
   templateUrl: './navbar.html',
   styleUrls: ['./navbar.css'],
 })
-export class Navbar implements OnInit {
+export class Navbar  {
   wishlistService = inject(WishlistService);
   theme = inject(ThemeService);
 
@@ -27,13 +27,16 @@ export class Navbar implements OnInit {
 
   // ✅ استخدم computed علشان تتحدث فورًا في التمبلت
   isDarkMode = computed(() => this.theme.isDarkSignal());
-
-  ngOnInit(): void {
-    this.theme.init();
-  }
+  darkIconClass = computed(() =>
+  this.theme.isDarkSignal() ? 'far fa-sun text-black' : 'far fa-moon text-white'
+  );
+  // ngOnInit(): void {
+  //   this.theme.init();
+  // }
 
   toggleTheme(): void {
     this.theme.toggle();
+    console.log('Theme toggled:', this.theme.isDarkSignal());
   }
 
   toggleMenu(): void {

@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { MovieCard } from "./componants/movie-card/movie-card";
+
 import { Navbar } from "./componants/navbar/navbar";
 import { BackTop } from './componants/back-top/back-top';
+import { ThemeService } from './shared/theme-service';
 
 @Component({
   selector: 'app-root',
@@ -10,6 +11,9 @@ import { BackTop } from './componants/back-top/back-top';
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
-export class App {
+export class App   {
   protected title = 'movieApp';
+  private theme = inject(ThemeService);
+
+
 }
